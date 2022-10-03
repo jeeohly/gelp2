@@ -4,12 +4,13 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from psutil import users 
-from .models import Profile
+from .models import Profile, Post
 
 # Create your views here.
 @login_required(login_url = 'signin')
 def index(request):
-    return render(request, 'index.html')
+    posts = Post.objects.all()
+    return render(request, 'index.html', {"posts": posts})
 
 def signup(request):
     if request.method == 'POST':
@@ -77,3 +78,15 @@ def settings(request):
     else:
         curr_bio = Profile.objects.filter(user=request.user).first().bio
         return render(request, 'settings.html', {'bio': curr_bio})
+
+@login_required(login_url = 'signin')
+def upload(request):
+    if request.method == 'POST':
+        user = request.user.username
+        body = request.POST['body']
+        new_post = Post.objects.create(user=user, body=body)
+        new_post.save()
+        messages.info(request, 'You posted')
+        return redirect('/')
+    else:
+        return redirect('/')

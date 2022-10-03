@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 <h1>INDEX</h1>
+
 <a href="settings">Settings</a>
 <br><br>
 <a href="signout">Sign Out</a>
+
+{% for message in messages %}
+    <h5>{{ message }}</h5>
+{% endfor %}
+
+{% for post in posts %}
+    <h5>{{ post.user }}: {{ post.body }}</h5>
+{% endfor %}
+
+<form action="upload" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Say something.." name="body">
+    <br><br>
+    <button type="submit">Post</button>
+    <br><br>
+</form>
