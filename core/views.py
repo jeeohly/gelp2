@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
+from psutil import users 
 from .models import Profile
 
 # Create your views here.
@@ -65,3 +66,14 @@ def signin(request):
 def signout(request):
     auth.logout(request)
     return redirect('signin')
+
+@login_required(login_url = 'signin')
+def settings(request):
+    if request.method == 'POST':
+        bio = request.POST['bio']
+        Profile.objects.filter(user=request.user).update(bio=bio)
+        messages.info(request, 'Bio changed')
+        return redirect('settings')
+    else:
+        curr_bio = Profile.objects.filter(user=request.user).first().bio
+        return render(request, 'settings.html', {'bio': curr_bio})
