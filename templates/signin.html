@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<h1>Sign In</h1>
+
+<div>   
+    {% for message in messages %}
+        <h5>{{message}}</h5>
+    {% endfor %}
+</div>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Username" name="username">
+    <br><br>
+    <input type="password" placeholder="Password" name="password">
+    <br><br>
+    <button type="submit">Login</button>
+    <br><br>
+    <a href="/signup">Create an account</a>
+</form>

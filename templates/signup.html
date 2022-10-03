@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<h1>Sign Up</h1>
+
+{% for message in messages %}
+    <h5>{{ message }}</h5>
+{% endfor %}
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Username" name="username">
+    <br><br>
+    <input type="email" placeholder="Email" name="email">
+    <br><br>
+    <input type="password" placeholder="Password" name="password">
+    <br><br>
+    <input type="password" placeholder="Confirm password" name="password2">
+    <br><br>
+    <button type="submit">Create Account</button>
+    <br><br>
+    <a href="/signin">Already have an account?</a>
+</form>
